@@ -1,20 +1,5 @@
 # Ppm
+Ppm is a trivial library for reading and writing PPM images that are formatted in the P6 style. It is intended to be used for quickly writing images while prototyping code and then swapped out for a library that can write modern, compressed image formats.
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add ppm to your list of dependencies in `mix.exs`:
-
-        def deps do
-          [{:ppm, "~> 0.0.1"}]
-        end
-
-  2. Ensure ppm is started before your application:
-
-        def application do
-          [applications: [:ppm]]
-        end
-
+##### Reference
+* [Format Specification](http://netpbm.sourceforge.net/doc/ppm.html)
