@@ -40,4 +40,9 @@ defmodule PpmTest do
 		<> <<255, 0, 0>> <> <<0, 255, 0>> <> <<0, 0, 255>>
 		assert {:error, "Missing row"} == Ppm.to_image_data(ppm_string)
 	end
+
+	test "ppm string that has 32 (space) and 10 (newline)" do
+		ppm_string = "P6 1 1 255\n"	<> <<32, 10, 0>>
+		assert {:ok, [[Color.create(32, 10, 0)]]} == Ppm.to_image_data(ppm_string)
+	end
 end
