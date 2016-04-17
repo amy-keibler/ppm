@@ -5,6 +5,8 @@ defmodule Ppm.Color do
 		%Ppm.Color{r: r, g: g, b: b}
 	end
 
+	def create([r, g, b]), do: create(r, g, b)
+
 	def to_binary(color = %Ppm.Color{}) do
 		<<color.r :: size(8),
 		color.g :: size(8),

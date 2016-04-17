@@ -29,4 +29,9 @@ defmodule Ppm.ColorTest do
 		color_binary = Ppm.Color.to_binary(color)
 		assert color_binary == <<1,2,3>>
 	end
+
+	test "Create color from three element array" do
+		color = Ppm.Color.create([1,2,3])
+		assert color == %Ppm.Color{r: 1, g: 2, b: 3}
+	end
 end

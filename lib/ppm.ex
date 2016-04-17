@@ -6,10 +6,7 @@ defmodule Ppm do
 	@ppm_regex ~r/(?<header>P6\s+(?<width>\d+)\s+(?<height>\d+)\s+255\s)/
 
 	def from_image_data(width, height, data) do
-		case validate_image(width, height, data) do
-			error ={:error, message} -> error
-			{:ok} -> {:ok, construct_header(width, height) <> construct_body(data)}
-		end
+		validate_image_and_call_on_success(width, height, data, fn -> construct_header(width, height) <> construct_body(data) end)
 	end
 
 	def to_image_data(ppm_data) do
@@ -21,19 +18,21 @@ defmodule Ppm do
 		length = String.length(ppm_data) - header_end
 		
 		image_data = :binary.part(ppm_data, header_end, length)
-		
-		ppm_image = reduce_image(image_data, []) |> Enum.chunk(width)
-		case validate_image(width, height, ppm_image) do
-			error = {:error, message} -> error
-			{:ok} -> {:ok, ppm_image}
-		end
-	end
 
-	defp validate_image(width, height, data) do
+		ppm_image = image_data |> :binary.bin_to_list
+		|> Stream.chunk(3)
+		|> Stream.map(&Color.create/1)
+		|> Enum.chunk(width)
+
+		validate_image_and_call_on_success(width, height, ppm_image, fn -> ppm_image end)
+	end
+	
+
+	defp validate_image_and_call_on_success(width, height, data, success_fn) do
 		cond do
 			Enum.count(data) != height -> {:error, "Missing row"}
 			Enum.any?(data, fn(row) -> Enum.count(row) != width end) -> {:error, "Missing cell"}
-			true -> {:ok}
+			true -> {:ok, success_fn.()}
 		end
 	end
 
@@ -47,11 +46,7 @@ defmodule Ppm do
 	defp construct_body(data) do
 		data
 		|> List.flatten
-		|> Enum.reduce(<<>>, fn(c = %Color{}, acc) -> acc <> Color.to_binary(c) end)
+		|> Enum.map(&Color.to_binary/1)
+		|> :binary.list_to_bin
 	end
-	
-	defp reduce_image(<<r :: size(8), g :: size(8), b :: size(8), rest :: binary>>, acc) do
-		reduce_image(rest, acc ++ [Color.create(r, g, b)])
-	end
-	defp reduce_image(_empty, acc), do: acc
 end
