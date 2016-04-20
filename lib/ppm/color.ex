@@ -7,6 +7,12 @@ defmodule Ppm.Color do
 
 	def create([r, g, b]), do: create(r, g, b)
 
+	def create(:black), do: create(0,0,0)
+	def create(:white), do: create(255,255,255)
+	def create(:red), do: create(255,0,0)
+	def create(:green), do: create(0,255,0)
+	def create(:blue), do: create(0,0,255)
+
 	def to_binary(color = %Ppm.Color{}) do
 		<<color.r :: size(8),
 		color.g :: size(8),

@@ -34,4 +34,30 @@ defmodule Ppm.ColorTest do
 		color = Ppm.Color.create([1,2,3])
 		assert color == %Ppm.Color{r: 1, g: 2, b: 3}
 	end
+
+	test "default black" do
+		color = Ppm.Color.create(:black)
+		assert color == %Ppm.Color{r: 0, g: 0, b: 0}
+	end
+
+	test "default white" do
+		color = Ppm.Color.create(:white)
+		assert color == %Ppm.Color{r: 255, g: 255, b: 255}
+	end
+
+	test "default red" do
+		color = Ppm.Color.create(:red)
+		assert color == %Ppm.Color{r: 255, g: 0, b: 0}
+	end
+
+	test "default green" do
+		color = Ppm.Color.create(:green)
+		assert color == %Ppm.Color{r: 0, g: 255, b: 0}
+	end
+
+	test "default blue" do
+		color = Ppm.Color.create(:blue)
+		assert color == %Ppm.Color{r: 0, g: 0, b: 255}
+	end
+	
 end
