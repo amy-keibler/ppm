@@ -8,9 +8,12 @@ defmodule Ppm.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps,
-		 test_coverage: [tool: ExCoveralls],
-		 preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
-		]
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["coveralls": :test,
+			 "coveralls.detail": :test,
+			 "coveralls.post": :test,
+			 "coveralls.html": :test]
+    ]
   end
 
   # Configuration for the OTP application
@@ -30,6 +33,7 @@ defmodule Ppm.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:excoveralls, "~> 0.4", only: :test}]
+    [{:excoveralls, "~> 0.4", only: :test},
+     {:dogma, "~> 0.1", only: :dev}]
   end
 end
